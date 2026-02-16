@@ -1,0 +1,1 @@
+This is a React project where images of dishes will be shown ,when clicked it's recipie will be shown
