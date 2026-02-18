@@ -1,0 +1,6 @@
+.recipe-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 0.5fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
