@@ -1,4 +1,4 @@
-const fetchRecipes = async(query = "") =>{ // Default to empty string if no query provided
+export const fetchRecipes = async(query = "") =>{ // Default to empty string if no query provided
     // Loads recipes from the API based on the search query
     try{
         const res = await fetch(
