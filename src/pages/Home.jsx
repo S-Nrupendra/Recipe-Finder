@@ -11,11 +11,11 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async() =>{
       const chicken = await fetchRecipes("chicken");
-      setChickenRecipes(chicken);
+      setChickenRecipes(chicken.slice(0,6));
       const soup = await fetchRecipes("soup");
-      setSoupRecipes(soup);
+      setSoupRecipes(soup.slice(0,6));
       const all = await fetchRecipes("a");
-      setExploreAll(all);
+      setExploreAll(all.slice(0,6));
     };
     fetchData();
   },[])
@@ -26,6 +26,28 @@ const Home = () => {
         <div className='recipe-grid'>
           {
             chickenRecipes.map((r) => (
+              <RecipeCard key={r.idMeal} recipe={r}/>
+            ))
+          }
+        </div>
+      </div>
+
+      <div className='section'>
+        <h2>Soup Recipes</h2>
+        <div className='recipe-grid'>
+          {
+            soupRecipes.map((r) => (
+              <RecipeCard key={r.idMeal} recipe={r}/>
+            ))
+          }
+        </div>
+      </div>
+
+      <div className='section'>
+        <h2>Explore All Recipes</h2>
+        <div className='recipe-grid'>
+          {
+            exploreAll.map((r) => (
               <RecipeCard key={r.idMeal} recipe={r}/>
             ))
           }
