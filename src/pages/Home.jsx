@@ -7,6 +7,7 @@ const Home = () => {
   const [chickenRecipes, setChickenRecipes] = useState([]);
   const [soupRecipes, setSoupRecipes] = useState([]);
   const [exploreAll, setExploreAll] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   useEffect(() => {
     const fetchData = async() =>{
@@ -15,10 +16,14 @@ const Home = () => {
       const soup = await fetchRecipes("soup");
       setSoupRecipes(soup.slice(0,6));
       const all = await fetchRecipes("a");
-      setExploreAll(all.slice(0,6));
+      setExploreAll(all);
     };
     fetchData();
   },[])
+
+  const showMore = () => {
+    setVisibleCount((prev)=>prev+5);
+  }
 
   return( <div className='home-container'>
       <div className='section'>
@@ -47,11 +52,15 @@ const Home = () => {
         <h2>Explore All Recipes</h2>
         <div className='recipe-grid'>
           {
-            exploreAll.map((r) => (
+            exploreAll.slice(0,visibleCount).map((r) => (
               <RecipeCard key={r.idMeal} recipe={r}/>
             ))
           }
         </div>
+        {
+          visibleCount < exploreAll.length && (
+          <button className='load-more' onClick={showMore}>Show More</button>
+        )}
       </div>
     </div>
   );
