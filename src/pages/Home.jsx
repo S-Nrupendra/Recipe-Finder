@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { fetchRecipes } from '../utils/api';
 import RecipeCard from '../components/RecipeCard';
+import Loader from '../components/Loader';
 import "./Home.css"
 
 const Home = () => {
@@ -9,14 +10,18 @@ const Home = () => {
   const [exploreAll, setExploreAll] = useState([]);
   const [visibleCount, setVisibleCount] = useState(10);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async() =>{
+      setLoading(true);
       const chicken = await fetchRecipes("chicken");
       setChickenRecipes(chicken.slice(0,6));
       const soup = await fetchRecipes("soup");
       setSoupRecipes(soup.slice(0,6));
       const all = await fetchRecipes("a");
       setExploreAll(all);
+      setLoading(false);
     };
     fetchData();
   },[])
@@ -25,6 +30,7 @@ const Home = () => {
     setVisibleCount((prev)=>prev+5);
   }
 
+  if(loading) return <Loader />;
   return( <div className='home-container'>
       <div className='section'>
         <h2>Chicken Recipes</h2>
