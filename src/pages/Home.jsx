@@ -3,6 +3,7 @@ import { fetchRecipes } from '../utils/api';
 import RecipeCard from '../components/RecipeCard';
 import Loader from '../components/Loader';
 import "./Home.css"
+import RecipeModel from '../components/RecipeModel';
 
 const Home = () => {
   const [chickenRecipes, setChickenRecipes] = useState([]);
@@ -11,6 +12,8 @@ const Home = () => {
   const [visibleCount, setVisibleCount] = useState(10);
 
   const [loading, setLoading] = useState(true);
+
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   useEffect(() => {
     const fetchData = async() =>{
@@ -37,7 +40,7 @@ const Home = () => {
         <div className='recipe-grid'>
           {
             chickenRecipes.map((r) => (
-              <RecipeCard key={r.idMeal} recipe={r}/>
+              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))
           }
         </div>
@@ -48,7 +51,7 @@ const Home = () => {
         <div className='recipe-grid'>
           {
             soupRecipes.map((r) => (
-              <RecipeCard key={r.idMeal} recipe={r}/>
+              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))
           }
         </div>
@@ -59,7 +62,7 @@ const Home = () => {
         <div className='recipe-grid'>
           {
             exploreAll.slice(0,visibleCount).map((r) => (
-              <RecipeCard key={r.idMeal} recipe={r}/>
+              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))
           }
         </div>
@@ -68,6 +71,11 @@ const Home = () => {
           <button className='load-more' onClick={showMore}>Show More</button>
         )}
       </div>
+      {
+        selectedRecipe && (
+          <RecipeModel recipe={selectedRecipe} onClose={()=>setSelectedRecipe(null)}/>
+        )
+      }
     </div>
   );
 }
