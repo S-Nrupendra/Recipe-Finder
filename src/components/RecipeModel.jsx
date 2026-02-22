@@ -1,4 +1,5 @@
 import React from 'react'
+import "./styles/RecipeModel.css"
 
 const RecipeModel = ({recipe, onClose}) => {
   if(!recipe) return null;
