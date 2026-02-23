@@ -4,6 +4,7 @@ import RecipeCard from '../components/RecipeCard';
 import Loader from '../components/Loader';
 import "./Home.css"
 import RecipeModel from '../components/RecipeModel';
+import SearchBar from '../components/SearchBar';
 
 const Home = () => {
   const [chickenRecipes, setChickenRecipes] = useState([]);
@@ -35,6 +36,7 @@ const Home = () => {
 
   if(loading) return <Loader />;
   return( <div className='home-container'>
+      <SearchBar />
       <div className='section'>
         <h2>Chicken Recipes</h2>
         <div className='recipe-grid'>
