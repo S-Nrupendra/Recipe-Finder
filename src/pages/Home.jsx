@@ -6,7 +6,7 @@ import "./Home.css"
 import RecipeModel from '../components/RecipeModel';
 import SearchBar from '../components/SearchBar';
 
-const Home = () => {
+const Home = ({resetHome}) => {
   const [chickenRecipes, setChickenRecipes] = useState([]);
   const [soupRecipes, setSoupRecipes] = useState([]);
   const [exploreAll, setExploreAll] = useState([]);
@@ -15,6 +15,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(()=>{
+    setSearchQuery("");
+    setRecipes([]);
+  },[resetHome]);
 
   useEffect(() => {
     const fetchData = async() =>{
@@ -34,10 +42,44 @@ const Home = () => {
     setVisibleCount((prev)=>prev+5);
   }
 
+  const handleSearch = async(query) =>{
+    setSearchQuery(query);
+
+    if(query.trim() === "") return;
+    setLoading(true);
+    const results = await fetchRecipes(query)
+    setRecipes(results);
+    setLoading(false);
+  }
+
+  const clearSearch = () =>{
+    setSearchQuery("");
+    setRecipes([]);
+  }
+
   if(loading) return <Loader />;
   return( <div className='home-container'>
-      <SearchBar />
-      <div className='section'>
+      <SearchBar onSearch={handleSearch} onClear={clearSearch}/>
+      
+      {
+        searchQuery ? (<div className='section'>
+          <h2>Search Results for "{searchQuery}"</h2>
+          {
+            recipes.length > 0 ? (
+              <div className='recipe-grid'>
+                {
+                  recipes.map((r)=>(
+                    <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
+                  ))
+                }
+              </div>
+            ) : (
+              <p>No Recipes found</p>
+            )
+          }
+        </div>
+        ) : (<>
+          <div className='section'>
         <h2>Chicken Recipes</h2>
         <div className='recipe-grid'>
           {
@@ -73,6 +115,9 @@ const Home = () => {
           <button className='load-more' onClick={showMore}>Show More</button>
         )}
       </div>
+        </>)
+      }
+
       {
         selectedRecipe && (
           <RecipeModel recipe={selectedRecipe} onClose={()=>setSelectedRecipe(null)}/>

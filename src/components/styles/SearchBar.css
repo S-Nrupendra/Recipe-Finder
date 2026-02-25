@@ -1,6 +1,7 @@
 .search-bar{
     text-align: center;
     margin: 1.5rem 0;
+    position: relative;
 }
 
 .search-bar .input{
@@ -19,4 +20,21 @@
     color: #fff;
     border-radius: 8px;
     cursor: pointer;
+}
+
+.clear-btn{
+    position: absolute;
+    right: 22%;
+    top: 20%;
+    transform: translate(-50%);
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #999;
+    transition: 0.3s ease;
+}
+
+.clear-btn:hover{
+    color: #6b6a6a;
 }

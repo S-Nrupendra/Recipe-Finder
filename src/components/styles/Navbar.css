@@ -7,6 +7,10 @@
     color: #fff;
 }
 
+.navbar .logo{
+    cursor: pointer;
+}
+
 .dark-btn{
     background-color: white;
     color: #e52e71;
